@@ -26,11 +26,14 @@ serverSocket.on("connection", socket => {
   socket.on("getOldSessions", () => {
     let old_sessions = grpcClientWrapper.props.old_sessions;
     console.log(old_sessions);
+    socket.emit("oldSessions", Array.from(old_sessions.keys()));
+    // socket.emit("oldSessions", old_sessions);
   });
 
   socket.on("getCurSession", () => {
     let sessionVar = grpcClientWrapper.props.sessionVar;
     console.log(sessionVar);
+    socket.emit("curSession", sessionVar);
   });
 
   socket.on("search", () => {

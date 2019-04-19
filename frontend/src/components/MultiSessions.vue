@@ -2,12 +2,19 @@
   <div>
     <p>MultiSessions</p>
 
-    <!-- <button @click="connect_ta2">connect_ta2</button>
-    <button @click="helloLoop">helloLoop</button>-->
     <button @click="init">init</button>
     <button @click="search">search</button>
     <button @click="getCurSession">getCurSession</button>
     <button @click="getOldSessions">getOldSessions</button>
+
+    <div></div>
+
+    <!-- <div>
+<p>Old Sessions</p>
+ <li v-for="session in old_sessions">
+
+    </li>
+    </div>-->
   </div>
 </template>
 
@@ -16,7 +23,8 @@ export default {
   name: "multi-sessions",
   data() {
     return {
-      sessions: null, // []
+      curSession: null,
+      old_sessions: null, // []
       selected_session: null
     };
   },
@@ -52,6 +60,14 @@ export default {
     //   this.datasets = datasets;
     //   // console.log(this.datasets);
     // }
+    curSession(sessionVar) {
+      // console.log(sessionVar);
+      this.curSession = sessionVar;
+    },
+    oldSessions(old_sessions) {
+      // console.log(old_sessions);
+      this.old_sessions = old_sessions;
+    }
   }
 };
 </script>
