@@ -137,7 +137,17 @@ function searchSolutions(sessionVar) {
         }
         //
 
+        let search_id = sessionVar.search_id;
+        if (search_id.length > 0) {
+          let session = {
+            search_id: sessionVar.search_id,
+            solutions: sessionVar.solutions
+          };
+          props.old_sessions.set(search_id, session);
+        }
+
         sessionVar.search_id = response.search_id;
+        sessionVar.solutions = new Map();
         // setTimeout(() => getSearchSolutionsResults(sessionVar, fulfill, reject), 180000);
         getSearchSolutionsResults(sessionVar, fulfill, reject);
       }

@@ -10,13 +10,14 @@ const CONFIG_PATH = APP_ROOT_PATH + "/" + CONFIG_FILENAME;
 // centralize all properties/variables
 const props = {
   //   dynamic
-  client: null,
 
+  client: null,
+  old_sessions: new Map(),
   sessionVar: {
     search_id: "",
     ta2Ident: null,
     connected: false,
-    solutions: new Map(),
+    solutions: null,
     //produceSolutionRequests: [],
     //solutionResults: [],
     // NIST eval plan: only ranks 1-20 are considered (lower is better)
@@ -27,7 +28,7 @@ const props = {
   // static
   proto: grpc.load(PROTO_PATH),
   userAgentTA3: "TA3-TGW",
-  grpcVersion: VERSION,  
+  grpcVersion: VERSION,
   allowed_val_types: [],
   CONFIG_PATH: CONFIG_PATH,
 

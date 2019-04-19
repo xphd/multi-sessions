@@ -16,29 +16,38 @@ console.log("Server listening " + PORT);
 const grpcClientWrapper = require("./Wrapper/Wrapper.js");
 const TA2PORT = "localhost:50054";
 
-let datasets_path = "./static/local_testing_data";
-let datasets = fs.readdirSync(datasets_path);
-// console.log(typeof datasets);
-// datasets.forEach(dataset => {
-//   console.log(dataset);
-// });
+// let datasets_path = "./static/local_testing_data";
+// let datasets = fs.readdirSync(datasets_path);
 
 serverSocket.on("connection", socket => {
+  let promise = null;
   console.log("Server: connected!");
 
-  socket.on("getDatasetsReq", () => {
-    console.log("getDatasetsReq");
-    // console.log(datasets);
-    socket.emit("getDatasetsRes", datasets);
-    console.log("Emit getDatasetsRes");
+  socket.on("getOldSessions", () => {
+    let old_sessions = grpcClientWrapper.props.old_sessions;
+    console.log(old_sessions);
   });
 
-  socket.on("setDatasetReq", selected_dataset => {
-    console.log(selected_dataset);
+  socket.on("getCurSession", () => {
+    let sessionVar = grpcClientWrapper.props.sessionVar;
+    console.log(sessionVar);
   });
 
-  socket.on("helloSearch", () => {
-    grpcClientWrapper.connect();
-    grpcClientWrapper.helloLoop().then(grpcClientWrapper.searchSolutions);
+  socket.on("search", () => {
+    if (promise) {
+      console.log("search");
+      promise.then(grpcClientWrapper.searchSolutions);
+    }
+  });
+
+  socket.on("helloLoop", () => {
+    console.log("helloLoop");
+    promise = grpcClientWrapper.helloLoop();
+    // .then(grpcClientWrapper.searchSolutions);
+  });
+
+  socket.on("connect_ta2", () => {
+    console.log("connect_ta2!");
+    grpcClientWrapper.connect(TA2PORT);
   });
 });

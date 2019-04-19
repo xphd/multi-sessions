@@ -37,7 +37,7 @@ const setEvaluationConfig = require("./methods_other/setEvaluationConfig");
 exports.setEvaluationConfig = setEvaluationConfig;
 
 const props = require("./props");
-exports.sessionVar = props.sessionVar;
+exports.props = props;
 
 // future development
 // const exportSolutions = require("./methods_molecule/exportSolutions");
