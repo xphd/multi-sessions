@@ -7,13 +7,27 @@
     <button @click="getCurSession">getCurSession</button>
     <button @click="getOldSessions">getOldSessions</button>
 
-    <div></div>
+    <div>
+      <h1>Current Session</h1>
+      {{curSession}}
+    </div>
+
+    <div>
+      <h1>Old Sessions</h1>
+      <ul v-for="search_id in search_ids " :key="search_id">
+        <input type="radio" :value="search_id" v-model="selected">
+        {{search_id}}
+      </ul>
+    </div>
 
     <!-- <div>
-<p>Old Sessions</p>
- <li v-for="session in old_sessions">
-
-    </li>
+      <h1>List</h1>
+      <ul>
+        <li v-for="item in items " :key="item">
+          <input type="radio" :value="item" v-model="selected_item">
+          {{item}}
+        </li>
+      </ul>
     </div>-->
   </div>
 </template>
@@ -24,8 +38,11 @@ export default {
   data() {
     return {
       curSession: null,
-      old_sessions: null, // []
-      selected_session: null
+      search_ids: null, // []
+      selected: null
+
+      // items: ["a", "b", "c"],
+      // selected_item: null
     };
   },
   methods: {
@@ -64,9 +81,9 @@ export default {
       // console.log(sessionVar);
       this.curSession = sessionVar;
     },
-    oldSessions(old_sessions) {
+    oldSessions(search_ids) {
       // console.log(old_sessions);
-      this.old_sessions = old_sessions;
+      this.search_ids = search_ids;
     }
   }
 };

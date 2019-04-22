@@ -25,8 +25,10 @@ serverSocket.on("connection", socket => {
 
   socket.on("getOldSessions", () => {
     let old_sessions = grpcClientWrapper.props.old_sessions;
+    let search_ids = Array.from(old_sessions.keys());
     console.log(old_sessions);
-    socket.emit("oldSessions", Array.from(old_sessions.keys()));
+
+    socket.emit("oldSessions", search_ids);
     // socket.emit("oldSessions", old_sessions);
   });
 

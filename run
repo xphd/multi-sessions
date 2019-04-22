@@ -1,2 +1,4 @@
 cd backend && yarn start &
 cd frontend && yarn serve
+
+cleanup
