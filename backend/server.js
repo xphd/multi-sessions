@@ -3,8 +3,6 @@ const http = require("http");
 const express = require("express");
 const socketIO = require("socket.io");
 
-const fs = require("fs");
-
 const app = express();
 const server = http.createServer(app);
 const serverSocket = socketIO(server, { origins: "*:*" });
@@ -23,13 +21,23 @@ serverSocket.on("connection", socket => {
   let promise = null;
   console.log("Server: connected!");
 
-  socket.on("getOldSessions", () => {
-    let old_sessions = grpcClientWrapper.props.old_sessions;
-    let search_ids = Array.from(old_sessions.keys());
-    console.log(old_sessions);
+  socket.on("getSelected", selected => {
+    let sessions = grpcClientWrapper.props.sessions;
+    if (sessions) {
+      let solutions = sessions.get(selected).solutions;
+      let solutions_id = Array.from(solutions.keys());
+      console.log(solutions_id);
+      socket.emit("solutions_id", solutions_id);
+    }
+  });
 
-    socket.emit("oldSessions", search_ids);
-    // socket.emit("oldSessions", old_sessions);
+  socket.on("getAllSessions", () => {
+    let sessions = grpcClientWrapper.props.sessions;
+    if (sessions) {
+      let search_ids = Array.from(sessions.keys());
+      console.log(sessions);
+      socket.emit("allSessions", search_ids);
+    }
   });
 
   socket.on("getCurSession", () => {

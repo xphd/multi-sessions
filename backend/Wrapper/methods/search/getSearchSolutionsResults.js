@@ -57,7 +57,9 @@ function getSearchSolutionsResults(sessionVar, fulfill, reject) {
       if (solution_id) {
         // let solution = { solution_id: solution_id, scores: {} };
         let solution = { solution_id: solution_id, finalOutput: "outputs.0" };
+        // if (sessionVar.solutions) {
         sessionVar.solutions.set(solution_id, solution);
+        // }
 
         // console.log(sessionVar.solutions)
 

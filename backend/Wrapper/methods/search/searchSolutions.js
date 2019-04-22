@@ -101,16 +101,13 @@ function searchSolutions(sessionVar) {
     next_input.setTargets(targets);
     inputs.push(next_input);
   }
-
   problem_desc.setInputs(inputs);
-
   var dataset_input = new proto.Value();
   dataset_input.setDatasetUri(
     "file://" + handleImageUrl(evaluationConfig.dataset_schema)
   );
   request.setInputs(dataset_input);
   request.setProblem(problem_desc);
-
   // store request
   if (props.isRequest) {
     let requestStr = JSON.stringify(request);
@@ -136,18 +133,17 @@ function searchSolutions(sessionVar) {
           fs.writeFileSync(path, responseStr);
         }
         //
-
-        let search_id = sessionVar.search_id;
+        let search_id = response.search_id;
         if (search_id.length > 0) {
           let session = {
-            search_id: sessionVar.search_id,
-            solutions: sessionVar.solutions
+            search_id: search_id,
+            solutions: new Map()
           };
-          props.old_sessions.set(search_id, session);
+          props.sessions.set(search_id, session);
         }
-
-        sessionVar.search_id = response.search_id;
-        sessionVar.solutions = new Map();
+        sessionVar.solutions = props.sessions.get(search_id).solutions;
+        sessionVar.search_id = search_id;
+        console.log("sessionVar", sessionVar);
         // setTimeout(() => getSearchSolutionsResults(sessionVar, fulfill, reject), 180000);
         getSearchSolutionsResults(sessionVar, fulfill, reject);
       }

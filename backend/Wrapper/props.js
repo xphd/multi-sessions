@@ -12,7 +12,7 @@ const props = {
   //   dynamic
 
   client: null,
-  old_sessions: new Map(),
+  sessions: new Map(),
   sessionVar: {
     search_id: "",
     ta2Ident: null,

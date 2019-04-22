@@ -5,7 +5,7 @@
     <button @click="init">init</button>
     <button @click="search">search</button>
     <button @click="getCurSession">getCurSession</button>
-    <button @click="getOldSessions">getOldSessions</button>
+    <button @click="getAllSessions">getAllSessions</button>
 
     <div>
       <h1>Current Session</h1>
@@ -13,11 +13,17 @@
     </div>
 
     <div>
-      <h1>Old Sessions</h1>
+      <h1>Sessions</h1>
       <ul v-for="search_id in search_ids " :key="search_id">
         <input type="radio" :value="search_id" v-model="selected">
         {{search_id}}
       </ul>
+      <button @click="getSelected">getSelected</button>
+    </div>
+
+    <div>
+      <h1>Solutions</h1>
+      <ul v-for="solution_id in solutions_id " :key="solution_id">{{solution_id}}</ul>
     </div>
 
     <!-- <div>
@@ -38,17 +44,28 @@ export default {
   data() {
     return {
       curSession: null,
-      search_ids: null, // []
-      selected: null
 
+      // search_id identifies session
+      search_ids: null, // []
+
+      selected: null,
+      solutions_id: null
       // items: ["a", "b", "c"],
       // selected_item: null
     };
   },
   methods: {
-    getOldSessions() {
-      console.log("getOldSessions");
-      this.$socket.emit("getOldSessions");
+    getSelected() {
+      console.log("getSelected");
+      if (this.selected) {
+        this.$socket.emit("getSelected", this.selected);
+      } else {
+        console.log("selected is:", this.selected);
+      }
+    },
+    getAllSessions() {
+      console.log("getAllSessions");
+      this.$socket.emit("getAllSessions");
     },
     getCurSession() {
       console.log("getCurSession");
@@ -77,12 +94,15 @@ export default {
     //   this.datasets = datasets;
     //   // console.log(this.datasets);
     // }
+    solutions_id(solutions_id) {
+      this.solutions_id = solutions_id;
+    },
     curSession(sessionVar) {
       // console.log(sessionVar);
       this.curSession = sessionVar;
     },
-    oldSessions(search_ids) {
-      // console.log(old_sessions);
+    allSessions(search_ids) {
+      // console.log(sessions);
       this.search_ids = search_ids;
     }
   }
